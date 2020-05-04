@@ -1,4 +1,4 @@
-# kikojewelry
+# SimpleBlog
 
 > My gnarly Nuxt.js project
 
