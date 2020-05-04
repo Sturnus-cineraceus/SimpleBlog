@@ -9,13 +9,7 @@ export default {
   name: "top",
   components: { BlogList },
   data: function() {
-    return {
-      sample: [
-        { title: "hei", body: "rerrew" },
-        { title: "yaa", body: "tewt" },
-        { title: "da", body: "twewte" }
-      ]
-    };
+    return {};
   }
 };
 </script>
