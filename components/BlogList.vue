@@ -1,19 +1,21 @@
 <template>
   <v-app id="bloglist">
     <v-card class="bloglist" v-for="b in blogs" :key="b.id">
-      <nuxt-link :to="'/blog?id=' + b.id">
-        <v-row>
-          <v-col cols="auto">
-            <v-avatar class="ma-3" size="254" tile>
-              <v-img :src="img"></v-img>
-            </v-avatar>
-          </v-col>
-          <v-col cols="auto">
-            <v-card-title>{{b.title}}</v-card-title>
-            <v-card-text>{{b.short}}</v-card-text>
-          </v-col>
-        </v-row>
-      </nuxt-link>
+      <div class="innercard">
+        <nuxt-link :to="'/blog?id=' + b.id">
+          <v-row>
+            <v-col cols="auto">
+              <v-avatar class="ma-3" size="254" tile>
+                <v-img :src="loadImage(b)"></v-img>
+              </v-avatar>
+            </v-col>
+            <v-col cols="auto">
+              <v-card-title>{{b.title}}</v-card-title>
+              <v-card-text>{{b.short}}</v-card-text>
+            </v-col>
+          </v-row>
+        </nuxt-link>
+      </div>
     </v-card>
   </v-app>
 </template>
@@ -26,10 +28,17 @@ export default {
   data: function() {
     return {
       blogs: [],
-      img: "/opt/no_image.png"
+      noimg: "/opt/no_image.png"
     };
   },
   methods: {
+    loadImage: function(item) {
+      if (item.topimages && item.topimages.length > 1) {
+        console.log(item.topimages);
+        return conf.api_url + item.topimages[0].url;
+      }
+      return this.noimg;
+    },
     loadBlog: function() {
       const blogsurl = conf.api_url + "/blogs";
       this.$axios.$get(blogsurl).then(res => {
@@ -60,5 +69,9 @@ export default {
 <style>
 .bloglist {
   margin: 1em;
+}
+
+.innercard {
+  padding: 1em;
 }
 </style>
