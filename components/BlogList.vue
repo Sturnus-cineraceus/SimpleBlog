@@ -1,17 +1,19 @@
 <template>
   <v-app id="bloglist">
     <v-card class="bloglist" v-for="b in blogs" :key="b.id">
-      <v-row>
-        <v-col cols="auto">
-          <v-avatar class="ma-3" size="254" tile>
-            <v-img :src="img"></v-img>
-          </v-avatar>
-        </v-col>
-        <v-col cols="auto">
-          <v-card-title>{{b.title}}</v-card-title>
-          <v-card-text>{{b.body}}</v-card-text>
-        </v-col>
-      </v-row>
+      <nuxt-link :to="'/blog?id=' + b.id">
+        <v-row>
+          <v-col cols="auto">
+            <v-avatar class="ma-3" size="254" tile>
+              <v-img :src="img"></v-img>
+            </v-avatar>
+          </v-col>
+          <v-col cols="auto">
+            <v-card-title>{{b.title}}</v-card-title>
+            <v-card-text>{{b.short}}</v-card-text>
+          </v-col>
+        </v-row>
+      </nuxt-link>
     </v-card>
   </v-app>
 </template>
@@ -35,6 +37,15 @@ export default {
 
         this.blogs.sort((a, b) => {
           return b.id - a.id;
+        });
+
+        this.blogs.map((v, i, a) => {
+          let body = v.body;
+          let short = "";
+          if (body) {
+            short = body.slice(0, 140);
+          }
+          v["short"] = short;
         });
       });
     }
