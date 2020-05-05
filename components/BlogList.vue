@@ -52,7 +52,9 @@ export default {
           let body = v.body;
           let short = "";
           if (body) {
-            short = body.slice(0, 140);
+            let body2 = this.$md.render(body);
+            let body3 = body2.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, "");
+            short = body3.slice(0, 300);
           }
           v["short"] = short;
         });
