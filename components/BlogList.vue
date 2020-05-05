@@ -11,7 +11,7 @@
             </v-col>
             <v-col cols="auto">
               <v-card-title>{{b.title}}</v-card-title>
-              <v-card-text>{{b.short}}</v-card-text>
+              <v-card-text>{{getDigest(b.body)}}</v-card-text>
             </v-col>
           </v-row>
         </nuxt-link>
@@ -25,9 +25,9 @@ const conf = appconf.default;
 
 export default {
   name: "bloglist",
+  props: ["blogs"],
   data: function() {
     return {
-      blogs: [],
       noimg: "/opt/no_image.png"
     };
   },
@@ -39,31 +39,14 @@ export default {
       }
       return this.noimg;
     },
-    loadBlog: function() {
-      const blogsurl = conf.api_url + "/blogs";
-      this.$axios.$get(blogsurl).then(res => {
-        this.blogs = res;
-
-        this.blogs.sort((a, b) => {
-          return b.id - a.id;
-        });
-
-        this.blogs.map((v, i, a) => {
-          let body = v.body;
-          let short = "";
-          if (body) {
-            let body2 = this.$md.render(body);
-            let body3 = body2.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, "");
-            short = body3.slice(0, 300);
-          }
-          v["short"] = short;
-        });
-      });
-    }
-  },
-  created: function() {
-    if (process.client) {
-      this.loadBlog();
+    getDigest: function(body) {
+      let short = "";
+      if (body) {
+        let body2 = this.$md.render(body);
+        let body3 = body2.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g, "");
+        short = body3.slice(0, 300);
+      }
+      return short;
     }
   }
 };

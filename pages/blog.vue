@@ -24,7 +24,6 @@ export default {
   },
   asyncData: async function(context) {
     let id = context.query.id;
-    console.log(id);
     try {
       let res = await context.$axios(conf.api_url + "/blogs/" + id);
       return res.data;
