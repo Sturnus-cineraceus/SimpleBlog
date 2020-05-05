@@ -91,4 +91,5 @@ sw.*
 
 
 app.config.js
-static/opt/
+static/opt/*
+!static/opt/.gitkeep
