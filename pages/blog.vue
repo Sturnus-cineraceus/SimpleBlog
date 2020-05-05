@@ -1,5 +1,9 @@
 <template>
-  <v-app id="blog">{{title}}</v-app>
+  <v-app id="blog">
+    <h1>{{title}}</h1>
+
+    <div id="blogBody" v-html="$md.render(body)"></div>
+  </v-app>
 </template>
 <script>
 import appconf from "../app.config";
@@ -11,6 +15,11 @@ export default {
     return {
       // title: "",
       // body: ""
+    };
+  },
+  head: function() {
+    return {
+      title: this.title
     };
   },
   asyncData: async function(context) {
@@ -28,3 +37,11 @@ export default {
   }
 };
 </script>
+<style>
+#blogBody {
+  margin-top: 2em;
+}
+#blogBody img {
+  max-width: 500px;
+}
+</style>
