@@ -34,7 +34,6 @@ export default {
   methods: {
     loadImage: function(item) {
       if (item.topimages && item.topimages.length > 1) {
-        console.log(item.topimages);
         return conf.api_url + item.topimages[0].url;
       }
       return this.noimg;
