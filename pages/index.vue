@@ -15,6 +15,13 @@ export default {
   data: function() {
     return {};
   },
+  created: function() {
+    if (process.client) {
+      console.log("fet");
+      let jwt = this.$store.state.auth.jwt;
+      console.log("jwt", jwt);
+    }
+  },
   asyncData: async function(context) {
     const blogsurl = conf.api_url + "/blogs?_sort=id:DESC";
     try {
