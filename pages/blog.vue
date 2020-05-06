@@ -24,7 +24,15 @@ export default {
   },
   asyncData: async function(context) {
     let id = context.query.id;
+
     try {
+      if (!id) {
+        context.error({
+          statusCode: 404,
+          message: ""
+        });
+        return;
+      }
       let res = await context.$axios(conf.api_url + "/blogs/" + id);
       return res.data;
     } catch (error) {

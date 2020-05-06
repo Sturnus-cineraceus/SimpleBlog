@@ -28,7 +28,8 @@ export default {
       title: conf.title,
       copylight: conf.copylight
     };
-  }
+  },
+  fetch: function(context) {}
 };
 </script>
 <style>
