@@ -13,18 +13,43 @@ export default {
   name: "blog",
   data: function() {
     return {
-      // title: "",
-      // body: ""
+      thumbnail: null
     };
   },
   head: function() {
+    let metadata = [
+      {
+        hid: "og:title",
+        property: "og:title",
+        content: this.title
+      },
+      {
+        hid: "og:type",
+        property: "og:type",
+        content: "article"
+      },
+      {
+        hid: "og:url",
+        property: "og:url",
+        content: conf.base_url + this.$route.fullPath
+      }
+    ];
+
+    let image = {
+      hid: "og:image",
+      property: "og:image",
+      content: conf.base_url + this.$route.fullPath
+    };
+
+    //imageがある場合のみmetaに追加
+
     return {
-      title: this.title
+      title: this.title,
+      meta: metadata
     };
   },
   asyncData: async function(context) {
     let id = context.query.id;
-
     try {
       if (!id) {
         context.error({

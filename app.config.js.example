@@ -1,6 +1,7 @@
 exports.default = {
     title: "Simple Blog",
     description: "",
+    base_url: "http://localhost:3000",
     api_url: "http://localhost:1337",
     icon: "/favicon.ico",
     copylight: ""
