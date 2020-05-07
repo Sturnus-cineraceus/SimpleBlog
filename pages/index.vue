@@ -13,23 +13,20 @@ export default {
   name: "top",
   components: { BlogList },
   data: function() {
-    return {};
+    return {
+      token: {}
+    };
   },
   created: function() {
     if (process.client) {
-      console.log("fet");
       let jwt = this.$store.state.auth.jwt;
-      console.log("jwt", jwt);
+      this.token = jwt;
     }
   },
   asyncData: async function(context) {
     const blogsurl = conf.api_url + "/blogs?_sort=id:DESC";
     try {
       let res = await context.$axios.$get(blogsurl);
-      // let bs = res;
-      // bs.sort((a, b) => {
-      //   return b.id - a.id;
-      // });
       return {
         blogs: res
       };
