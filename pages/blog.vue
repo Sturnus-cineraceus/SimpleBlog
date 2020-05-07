@@ -24,14 +24,29 @@ export default {
   },
   asyncData: async function(context) {
     let id = context.query.id;
+
     try {
+      if (!id) {
+        context.error({
+          statusCode: 404,
+          message: ""
+        });
+        return;
+      }
       let res = await context.$axios(conf.api_url + "/blogs/" + id);
       return res.data;
     } catch (error) {
-      context.error({
-        statusCode: error.response.status,
-        message: error.response.data.message
-      });
+      if (error.response) {
+        context.error({
+          statusCode: error.response.status,
+          message: error.response.data.message
+        });
+      } else {
+        context.error({
+          statusCode: 503,
+          message: "internal server error"
+        });
+      }
     }
   }
 };
