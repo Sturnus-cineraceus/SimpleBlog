@@ -17,6 +17,11 @@ export default {
       token: {}
     };
   },
+  head: function() {
+    return {
+      titleTemplate: ""
+    };
+  },
   created: function() {
     if (process.client) {
       let jwt = this.$store.state.auth.jwt;
