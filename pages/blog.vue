@@ -1,19 +1,23 @@
 <template>
   <v-app id="blog">
-    <h1>{{title}}</h1>
-
-    <div id="blogBody" v-html="$md.render(body)"></div>
+    <h1>{{res.title}}</h1>
+    <div class="create_date">
+      <p>投稿日 : {{ util.changeDateFormat(res.created_at) }}</p>
+    </div>
+    <div id="blogBody" v-html="$md.render(res.body)"></div>
   </v-app>
 </template>
 <script>
 import appconf from "../app.config";
 const conf = appconf.default;
 
+import utilobj from "../utils/util";
+
 export default {
   name: "blog",
   data: function() {
     return {
-      thumbnail: null
+      util: utilobj
     };
   },
   head: function() {
@@ -32,16 +36,13 @@ export default {
         hid: "og:url",
         property: "og:url",
         content: conf.base_url + this.$route.fullPath
+      },
+      {
+        hid: "og:image",
+        property: "og:image",
+        content: this.thumbnail
       }
     ];
-
-    let image = {
-      hid: "og:image",
-      property: "og:image",
-      content: conf.base_url + this.$route.fullPath
-    };
-
-    //imageがある場合のみmetaに追加
 
     return {
       title: this.title,
@@ -59,8 +60,21 @@ export default {
         return;
       }
       let res = await context.$axios(conf.api_url + "/blogs/" + id);
-      return res.data;
+
+      let thumbnail = conf.base_url + "/opt/_aegimno.png";
+      if (res.data.topimages && res.data.topimages.length >= 1) {
+        thumbnail = conf.api_url + res.data.topimages[0].url;
+      } else if (res.data.brand && res.data.brand.thumbnail) {
+        thumbnail = conf.api_url + res.data.brand.thumbnail.url;
+      }
+
+      let data = {
+        res: res.data,
+        thumbnail: thumbnail
+      };
+      return data;
     } catch (error) {
+      console.log(error);
       if (error.response) {
         context.error({
           statusCode: error.response.status,
@@ -82,5 +96,9 @@ export default {
 }
 #blogBody img {
   max-width: 500px;
+}
+.create_date {
+  padding-top: 1em;
+  padding-left: 1em;
 }
 </style>

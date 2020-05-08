@@ -33,8 +33,10 @@ export default {
   },
   methods: {
     loadImage: function(item) {
-      if (item.topimages && item.topimages.length > 1) {
+      if (item.topimages && item.topimages.length >= 1) {
         return conf.api_url + item.topimages[0].url;
+      } else if (item.brand && item.brand.thumbnail) {
+        return conf.api_url + item.brand.thumbnail.url;
       }
       return this.noimg;
     },
