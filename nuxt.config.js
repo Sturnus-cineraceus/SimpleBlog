@@ -52,6 +52,7 @@ module.exports = {
   */
   modules: [
     '@nuxtjs/axios',
+    '@nuxtjs/sitemap'
   ],
   axios: {
   },
@@ -79,6 +80,33 @@ module.exports = {
           accent: "#ff9800",
         }
       }
+    }
+  },
+  sitemap: {
+    path: '/sitemap.xml', // 出力パス
+    hostname: appconfig.base_url,
+    cacheTime: 1000 * 60 * 15,
+    generate: false, // nuxt generate で静的ファイル出力する場合にはtrueにする
+    exclude: [ // 除外項目
+      '/manage/**',
+      '/blog'
+    ],
+    async routes() {
+      let url = appconfig.api_url + "/blogs?_limit=-1&_sort=id:DESC";
+      const axios = require('axios');
+      const posts = await axios.get(url);
+      let urls = [];
+      posts.data.forEach((val, idx, arr) => {
+        let id = val.id;
+        let posturl = appconfig.base_url + "/blog?id=" + id;
+        let urlset = {
+          loc: posturl,
+          priority: 0.8
+        }
+        urls.push(posturl);
+      });
+
+      return urls;
     }
   },
   /*
