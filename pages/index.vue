@@ -29,7 +29,7 @@ export default {
     }
   },
   asyncData: async function(context) {
-    const blogsurl = conf.api_url + "/blogs?_sort=id:DESC";
+    const blogsurl = conf.api_url + "/blogs?_limit=10&_sort=id:DESC";
     try {
       let res = await context.$axios.$get(blogsurl);
       return {
