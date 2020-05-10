@@ -1,6 +1,7 @@
 <template>
   <v-app id="top">
-    <BlogList v-bind:blogs="blogs" />
+    <BlogList v-bind:blogs.sync="blogs" />
+    <div v-intersect="onIntersect"></div>
   </v-app>
 </template>
 <script>
@@ -14,7 +15,10 @@ export default {
   components: { BlogList },
   data: function() {
     return {
-      token: {}
+      token: {},
+      counturl: conf.api_url + "/blogs/count",
+      blogurl: conf.api_url + "/blogs?_limit=10&_sort=id:DESC",
+      isLoading: false
     };
   },
   head: function() {
@@ -23,15 +27,46 @@ export default {
     };
   },
   created: function() {
+    this.isLoading = true;
     if (process.client) {
       let jwt = this.$store.state.auth.jwt;
       this.token = jwt;
     }
   },
+  mounted: function() {
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 5 * 1000);
+  },
+  methods: {
+    onIntersect: async function() {
+      if (this.isLoading) {
+        return;
+      }
+      console.log("kiken");
+      this.isLoading = true;
+      try {
+        let countres = await this.$axios.$get(this.counturl);
+        if (countres > this.blogs.length) {
+          let neoblogs = await this.$axios.$get(
+            this.blogurl + "&_start=" + this.blogs.length
+          );
+          this.blogs = this.blogs.concat(neoblogs);
+        }
+      } catch (er) {
+        console.error(er);
+      } finally {
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1 * 1000);
+      }
+    }
+  },
   asyncData: async function(context) {
-    const blogsurl = conf.api_url + "/blogs?_limit=10&_sort=id:DESC";
     try {
-      let res = await context.$axios.$get(blogsurl);
+      let res = await context.$axios.$get(
+        conf.api_url + "/blogs?_limit=10&_sort=id:DESC"
+      );
       return {
         blogs: res
       };
