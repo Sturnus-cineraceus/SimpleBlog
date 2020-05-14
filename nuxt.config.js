@@ -35,7 +35,7 @@ module.exports = {
     {
       src: '@/plugins/localStorage',
       mode: 'client'
-    },
+    }
   ],
   /*
   ** Nuxt.js dev-modules
@@ -52,7 +52,7 @@ module.exports = {
   */
   modules: [
     '@nuxtjs/axios',
-    '@nuxtjs/sitemap'
+    '@nuxtjs/sitemap',
   ],
   axios: {
   },

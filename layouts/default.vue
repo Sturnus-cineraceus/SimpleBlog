@@ -1,9 +1,16 @@
 <template>
   <v-app light>
     <v-app-bar :clipped-left="clipped" fixed app>
-      <nuxt-link to="/">
-        <v-toolbar-title class="titlebar" v-text="title" />
-      </nuxt-link>
+      <v-row class="align-center">
+        <v-col>
+          <nuxt-link to="/">
+            <v-toolbar-title class="titlebar" v-text="title" />
+          </nuxt-link>
+        </v-col>
+        <v-col>
+          <v-text-field label="Search" single-line append-icon="mdi-magnify"></v-text-field>
+        </v-col>
+      </v-row>
     </v-app-bar>
     <v-content>
       <v-container>
