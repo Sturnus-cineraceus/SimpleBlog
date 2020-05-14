@@ -8,10 +8,10 @@
   </v-app>
 </template>
 <script>
-import appconf from "../app.config";
+import appconf from "../../app.config";
 const conf = appconf.default;
 
-import utilobj from "../utils/util";
+import utilobj from "../../utils/util";
 
 export default {
   name: "blog",
@@ -50,7 +50,7 @@ export default {
     };
   },
   asyncData: async function(context) {
-    let id = context.query.id;
+    let id = context.route.params.id;
     try {
       if (!id) {
         context.error({
@@ -74,7 +74,6 @@ export default {
       };
       return data;
     } catch (error) {
-      console.log(error);
       if (error.response) {
         context.error({
           statusCode: error.response.status,

@@ -2,7 +2,7 @@
   <v-app id="bloglist">
     <v-card class="bloglist" v-for="b in blogs" :key="b.id">
       <div class="innercard">
-        <nuxt-link :to="'/blog?id=' + b.id">
+        <nuxt-link :to="'/blog/' + b.id">
           <v-row>
             <v-col cols="auto">
               <v-avatar class="ma-3" size="254" tile>

@@ -98,7 +98,7 @@ module.exports = {
       let urls = [];
       posts.data.forEach((val, idx, arr) => {
         let id = val.id;
-        let posturl = appconfig.base_url + "/blog?id=" + id;
+        let posturl = appconfig.base_url + "/blog/" + id;
         let urlset = {
           loc: posturl,
           priority: 0.8
