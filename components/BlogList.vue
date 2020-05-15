@@ -31,6 +31,11 @@ export default {
       noimg: "/opt/no_image.png"
     };
   },
+  mounted: function() {
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 5 * 1000);
+  },
   methods: {
     loadImage: function(item) {
       if (item.topimages && item.topimages.length >= 1) {

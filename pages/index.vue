@@ -43,7 +43,6 @@ export default {
       if (this.isLoading) {
         return;
       }
-      console.log("kiken");
       this.isLoading = true;
       try {
         let countres = await this.$axios.$get(this.counturl);
