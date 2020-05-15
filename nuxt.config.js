@@ -10,6 +10,9 @@ module.exports = {
   head: {
     titleTemplate: '%s - ' + appconfig.title,
     title: appconfig.title || '',
+    htmlAttrs: {
+      lang: 'ja'
+    },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -35,7 +38,7 @@ module.exports = {
     {
       src: '@/plugins/localStorage',
       mode: 'client'
-    },
+    }
   ],
   /*
   ** Nuxt.js dev-modules
@@ -52,7 +55,7 @@ module.exports = {
   */
   modules: [
     '@nuxtjs/axios',
-    '@nuxtjs/sitemap'
+    '@nuxtjs/sitemap',
   ],
   axios: {
   },
@@ -98,7 +101,7 @@ module.exports = {
       let urls = [];
       posts.data.forEach((val, idx, arr) => {
         let id = val.id;
-        let posturl = appconfig.base_url + "/blog?id=" + id;
+        let posturl = appconfig.base_url + "/blog/" + id;
         let urlset = {
           loc: posturl,
           priority: 0.8
